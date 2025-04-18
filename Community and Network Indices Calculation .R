@@ -198,7 +198,7 @@ library(tibble)
 library(purrr)
 
 # Read the species occurrence table for the nodes of each subnet.
-load("datasets/spicies_occurrences.Rdata")
+load("datasets/species_occurrences.Rdata")
 
 # Store them in a list for subsequent network processing.
 all_objects <- ls()
@@ -217,9 +217,8 @@ occurrences <- occurrences[!names(occurrences) %in% c("sample2022", "sample2023"
 rm(list = setdiff(ls(), "occurrences"))
 
 # Load total network which includes all species in 3 years.
-total_network <- read.xlsx("datasets/Trophic interaction 0-1 adjacent matrix.xlsx")
+total_network <- read.xlsx("datasets/trophic interaction 0-1 adjacent matrix.xlsx")
 
-# Further processing.
 original_network <- total_network[,-(1:2)]
 original_network <- as.matrix(original_network)
 diag(original_network) <- 0 # Ignore intraspecific self-feeding.
