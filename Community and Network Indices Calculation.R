@@ -1,3 +1,4 @@
+# R version: R-4.5.0
 ########## PART 1 COMMUNITY INDICES CALCULATION #########
 
 # Read in merged - dataset.
