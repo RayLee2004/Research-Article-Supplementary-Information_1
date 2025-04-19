@@ -66,7 +66,8 @@ all_groups_transposed <- lapply(all_groups, transpose)  # ('at' means 'all trans
 richness <- function(x) {
   result_df <- data.frame(sampling_site_order = rownames(x[[1]])) # Read sampling sites and sampling time (or order).
   for (y in names(x)) {
-    richness_values <- vegan::specnumber(x[[y]]) # If the package is not marked, the function will not run normally because the defined function's name has existed in R packages.
+    richness_values <- vegan::specnumber(x[[y]]) 
+    # If the package is not marked, the function will not run normally because the defined function's name has existed in R packages.
     temp_df <- data.frame(
       richness = as.numeric(richness_values)
     ) # Calculate by traversing each table in the list.
