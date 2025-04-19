@@ -49,13 +49,13 @@ print(prot$ss)
 print(prot$signif)
 
 ########## PART 2 ANALYSIS RESULTS PLOTING #########
-# Figure 1: Procrustes Errors
+##### Figure 1: Procrustes Errors #####
 
 # The format and size of plot output can be modified here.
 png("Procrustes Errors.png", width = 2000, height = 1000)
 
 # Plot margin (bottom→left→top→right)
-par(mar = c(6.5, 6.5, 4.3, 5)) 
+par(mar = c(6, 7, 4.6, 5)) 
 # Distance between axis.lab/axis.content and axis.
 par(mgp = c(4, 1.4, 0)) 
 
@@ -63,7 +63,7 @@ plot(
   proc, 
   kind = 2, 
   cex.axis = 1.75,
-  cex.lab = 2.6,
+  cex.lab = 2.25,
   main = "",  # Leave the title blank for separate setting.
   xlab = "Sample Index", 
   ylab = "Procrustes residual"
@@ -71,20 +71,26 @@ plot(
 
 # Add title.
 title(
-  main = "Procrustes Errors", 
+  main="Procrustes Errors", 
   outer = TRUE, 
   cex.main = 3, 
   font.main = 2, # Bold face.
-  line = -2.9 # Adjust title's vertical position.
+  line = -3 # Adjust title's vertical position. ('-' means down)
 ) 
 
 # Add subtitle.
-title(
-  main = "Fish - Invertebrate", 
-  outer = FALSE, 
-  cex.main = 2, 
-  font.main = 1,
-  line = -2.9
+mtext(
+  "Fish - Invertebrate", 
+  outer = FALSE,  # Place the subtitle within the figure.
+  cex = 2, 
+  font = 1,
+  col="red",
+  line = -2.5,
+  adj = 0.5 # Place the subtitle on the mediate side.
+) 
+
+dev.off() # Save the plot.
+
 ) 
 
 dev.off() # Save the plot.
