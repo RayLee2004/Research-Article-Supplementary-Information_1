@@ -42,7 +42,7 @@ par(mar = c(1.6, 1.6, 6, 1.6), xaxs = 'i', yaxs = 'i') # Plot margin
 
 plot(
   graph, 
-  vertex.label = NA, # Remove node labels
+  vertex.label = NA, # Hide node labels
   edge.arrow.size = 0  # Hide arrows
 )
 
