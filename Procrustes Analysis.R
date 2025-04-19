@@ -44,11 +44,14 @@ summary(proc)
 set.seed(123) # Set random seeds to ensure the reproducibility of the results
 prot <- protest(fish_pca, invertebrate_pca, permutations = 999) # Fish as X variable.
 
-# Show the significance tests results.
+# Print the M2 statistic.
 print(prot$ss)
+
+# Print the significance (p value).
 print(prot$signif)
 
 ########## PART 2 ANALYSIS RESULTS PLOTING #########
+
 ##### Figure 1: Procrustes Errors #####
 
 # The format and size of plot output can be modified here.
@@ -64,9 +67,10 @@ plot(
   kind = 2, 
   cex.axis = 1.75,
   cex.lab = 2.25,
+  font.lab=2,
   main = "",  # Leave the title blank for separate setting.
   xlab = "Sample Index", 
-  ylab = "Procrustes residual"
+  ylab = "Procrustes Residual"
 )
 
 # Add title.
@@ -87,10 +91,6 @@ mtext(
   col="red",
   line = -2.5,
   adj = 0.5 # Place the subtitle on the mediate side.
-) 
-
-dev.off() # Save the plot.
-
 ) 
 
 dev.off() # Save the plot.
