@@ -160,12 +160,12 @@ ggplot(plotdf) +
     vjust = -1
   ) + # Positive number means up
   
-### 7 Add annoation of procrutes M2 statistic and p value.
+### 7 Add annotation of procrutes M2 statistic and p value.
   annotate(
     'text',
     x = 0.33, # Place annotation on a specific coordinate. 
     y = 0.38, # Here you should be checked and modified this.
-    label = paste0('M2 = ', round(proc$ss, 3), 'P value = ', prot$signif),  # Read m2 and p value and paste.
+    label = paste0('M2 = ', round(proc$ss, 3), 'P value = ', prot$signif),  # Read M2 and p value and paste.
     size = 8,
     color = 'black'
   ) +
