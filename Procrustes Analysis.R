@@ -42,7 +42,7 @@ summary(proc)
 
 # Conduct significance tests.
 set.seed(123) # Set random seeds to ensure the reproducibility of the results
-prot <- protest(fish_pca, invertebrate_pca, permutations = 999) # Fish as X variable.
+prot <- protest(fish_pca, invertebrate_pca, permutations = 999) # Fish as group1.
 
 # Print the M2 statistic.
 print(prot$ss)
@@ -54,44 +54,172 @@ print(prot$signif)
 
 ##### Figure 1: Procrustes Errors #####
 
+# Remove redundant objects in R environment.
+rm(list = setdiff(ls(), list("proc", "prot")))
+
 # The format and size of plot output can be modified here.
 png("Procrustes Errors.png", width = 2000, height = 1000)
 
 # Plot margin (bottom→left→top→right)
-par(mar = c(6, 7, 4.6, 5)) 
-
-# Distance between axis.lab/axis.content and axis.
-par(mgp = c(4, 1.4, 0)) 
+par(mar = c(5, 6, 5, 6))
+# Distance between axis.lab/axis.text and axis.
+par(mgp = c(4, 1.4, 0))
 
 plot(
-  proc, 
-  kind = 2, 
+  proc,
+  kind = 2,
   cex.axis = 1.75,
   cex.lab = 2.25,
-  font.lab=2,
+  font.lab = 2,
   main = "",  # Leave the title blank for separate setting.
-  xlab = "Sample Index", 
+  xlab = "Sample Index",
   ylab = "Procrustes Residual"
 )
 
 # Add title.
 title(
-  main="Procrustes Errors", 
-  outer = TRUE, 
-  cex.main = 3, 
+  main = "Procrustes Errors",
+  outer = TRUE,
+  cex.main = 3,
   font.main = 2, # Bold face.
-  line = -3 # Adjust title's vertical position. ('-' means down)
-) 
+  line = -3 # Adjust title's vertical position. (Positive number means up)
+)
 
 # Add subtitle.
 mtext(
-  "Fish - Invertebrate", 
+  "Fish - Invertebrate",
   outer = FALSE,  # Place the subtitle within the figure.
-  cex = 2, 
+  cex = 2,
   font = 1,
-  col="red",
+  col = "red",
   line = -2.5,
   adj = 0.5 # Place the subtitle on the mediate side.
-) 
+)
+
+dev.off() # Save the plot.
+
+##### Figure 2 Procrustes Correlation #####
+
+# Create a data.frame used for plotting including Begin and End Coordinates from analysis result.
+plotdf <- data.frame(
+  sample = rownames(proc$X), # Sample name
+  X_begin = proc$X[, 1], # group 1 x
+  X_end = proc$Yrot[, 1], # group 2 x
+  Y_begin = proc$X[, 2], # group 1 y
+  Y_end = proc$Yrot[, 2] # group 2 y
+)
+
+# Create a data.frame to store group names for adding legend in figure.
+plotdf_group <- data.frame(
+  group = c("Fish", "Invertebrate")
+)
+
+# The format and size of plot output can be modified here.
+png("Procrustes Analysis.png", width = 1500, height = 1200)
+
+### 1 ggplot() module (to import plotdf)
+ggplot(plotdf) +
+  
+### 2 geom_segment() module (to specify the ploting object as a line segment)
+  geom_segment(
+    aes(
+      x = X_begin,
+      y = Y_begin,
+      xend = X_end,
+      yend = Y_end
+    ), # Map the coordinates to the figure
+    linewidth = 0.5, # Line width
+    color = "black" # Line color
+  ) +
+  
+### 3 lab() module (to define axis.labs and figure title)
+  labs(
+    x = "Dimension 1",
+    y = "Dimension 2",
+    title = "Procrustes Analysis",
+    color = "Group"
+  ) + # Set the legend name 'Group'.
+  
+### 4 Specify the corresponding colors for each group's name.
+  scale_color_manual(
+    values = c("red", "blue"),  # (red for 'Fish', blue for 'Invertebrate')
+    labels = plotdf_group$group
+  ) +
+  
+### 5 geom_point() module (to add the points at both ends of the line segment)
+  geom_point(aes(x = X_begin, y = Y_begin, color = "Fish"), size = 5) + # points of group 1
+  # Unify the color of the points to the color corresponding to the string "Fish".
+  geom_point(aes(x = X_end, y = Y_end, color = "Invertebrate"), size = 5) + # points of group 2
+  # Unify the color of the points to the color corresponding to the string "Invertebrate".
+  
+### 6 geom_text() module (to add point sample name)
+  geom_text(
+    aes(x = X_begin, y = Y_begin, label = sample), # show the point name of group 1
+    color = "black",
+    size = 6.3,
+    vjust = -1
+  ) + # Positive number means up
+  
+### 7 Add annoation of procrutes M2 statistic and p value.
+  annotate(
+    "text",
+    x = 0.33, # Place annotation on a specific coordinate. 
+    y = 0.38, # Here you should be checked and modified this.
+    label = paste0("M2 = ", round(proc$ss, 3), "P value = ", prot$signif),  # Read m2 and p value and paste.
+    size = 8,
+    color = "black"
+  ) +
+  
+### 8 Theme() module (to further polish)
+  theme(
+    ## Figure margin section
+    plot.margin = margin(t = 10, r = 15, b = 10, l = 10, unit = "pt"),
+    
+    ## Figure background section
+    panel.background = element_blank(),
+    plot.background = element_blank(),
+    panel.grid = element_blank(),
+    panel.border = element_blank(),
+    
+    ## Legend section
+    legend.title = element_text(
+      size = 27,
+      vjust = 2
+    ), # Legend title
+    legend.text = element_text(
+      size = 24
+    ), # Legend text
+    legend.key.size = unit(1, "cm"), # circle's size
+    legend.spacing = unit(0.6, "cm"), # distance between adjacent legends
+    
+    ## Title section
+    plot.title = element_text(
+      hjust = 0.6, # Adjust title's horizontal position.
+      vjust = 0.1, # Adjust title's vertical position. (positive number means up)
+      size = 48,
+      face = "bold", # bold face
+      margin = margin(b = 15)
+    ),
+    
+    ## Axis lab section
+    axis.title = element_text(
+      size = 30, # axis.lab size
+      face = "bold", # axis.lab bold face
+      vjust = 2
+    ),
+    
+    ## Axis line section
+    axis.line = element_line(
+      color = "black",
+      size = 0.9
+    ),
+    
+    ## Axis text section
+    axis.text = element_text(
+      face = "bold",
+      size = 20,
+      vjust = -2.5
+    )
+  )
 
 dev.off() # Save the plot.
