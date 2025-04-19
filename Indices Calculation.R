@@ -220,6 +220,7 @@ rm(list = setdiff(ls(), "occurrences"))
 # Load total network which includes all species in 3 years.
 total_network <- read.xlsx("datasets/trophic interaction 0-1 adjacent matrix.xlsx")
 
+# Further Process.
 original_network <- total_network[,-(1:2)]
 original_network <- as.matrix(original_network)
 diag(original_network) <- 0 # Ignore intraspecific self-feeding.
