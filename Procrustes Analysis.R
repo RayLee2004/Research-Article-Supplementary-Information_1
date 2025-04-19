@@ -59,6 +59,7 @@ png("Procrustes Errors.png", width = 2000, height = 1000)
 
 # Plot margin (bottom→left→top→right)
 par(mar = c(6, 7, 4.6, 5)) 
+
 # Distance between axis.lab/axis.content and axis.
 par(mgp = c(4, 1.4, 0)) 
 
