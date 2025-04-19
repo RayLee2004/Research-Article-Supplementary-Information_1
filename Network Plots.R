@@ -5,7 +5,6 @@
 library(igraph)
 library(ggraph)
 library(tidygraph)
-library(ggplot2)
 library(RColorBrewer)
 
 # Read edges(links) file and nodes file, 
