@@ -2,7 +2,7 @@
 ########## PART 1 COMMUNITY INDICES CALCULATION #########
 
 # Read in merged - dataset.
-load("datasets/merged datasets.Rdata")
+load('datasets/merged datasets.Rdata')
 
 # Load required packages.
 library(vegan)
@@ -26,20 +26,20 @@ all_groups <- list(
 # Unify the name of first column of all tables.
 all_groups <- lapply(all_groups, function(df) {
   df <- as.data.frame(df)
-  colnames(df)[1] <- "species"
+  colnames(df)[1] <- 'species'
   return(df)
 })
 
 # Remove redundant objects in R environment.
-rm(list = setdiff(ls(), "all_groups"))
+rm(list = setdiff(ls(), 'all_groups'))
 
 # Create a function to convert absolute abundance to relative abundance (data standardization).
 standardize <- function(x) {
   species <- as.data.frame(x[, 1])
-  colnames(species)[1] <- "species"
+  colnames(species)[1] <- 'species'
   x <- x[, -1]
   col_sums <- colSums(x)
-  x <- sweep(x, 2, col_sums, FUN = "/")
+  x <- sweep(x, 2, col_sums, FUN = '/')
   x <- cbind(species, x)
   return(x)
 }
@@ -100,9 +100,9 @@ convert_to_longdata <- function(df) {
   df %>%
     pivot_longer(
       cols = -1, # The first column remains unchanged.
-      names_to = c("sampling_site", "sampling_order"),  # Next step requires these two columns.
-      names_sep = "_", # Read sampling site from 'sampling site + order".
-      values_to = "abundance" 
+      names_to = c('sampling_site', 'sampling_order'),  # Next step requires these two columns.
+      names_sep = '_', # Read sampling site from 'sampling site + order".
+      values_to = 'abundance' 
     ) %>%
     rename(species = 1) %>% # Unify the name of first column of all long data tables.
     mutate(sampling_order = as.integer(sampling_order))
@@ -117,10 +117,10 @@ synchrony <- function(x) {
   for (y in names(x)) {
     synchrony_values <- codyn::synchrony(
       x[[y]],
-      species.var = "species",
-      time.var = "sampling_order",
-      abundance.var = "abundance",
-      replicate.var = "sampling_site"
+      species.var = 'species',
+      time.var = 'sampling_order',
+      abundance.var = 'abundance',
+      replicate.var = 'sampling_site'
     ) # Correspond the parameters to columns of the long data table.
     colnames(synchrony_values)[2] <- substitute(y)
     result_df <- cbind(result_df, synchrony_values[2])
@@ -137,9 +137,9 @@ stability <- function(x) {
   for (y in names(x)) {
     stability_values <- codyn::community_stability(
       x[[y]],
-      time.var = "sampling_order",
-      abundance.var = "abundance",
-      replicate.var = "sampling_site"
+      time.var = 'sampling_order',
+      abundance.var = 'abundance',
+      replicate.var = 'sampling_site'
     )
     colnames(stability_values)[2] <- substitute(y)
     result_df <- cbind(result_df, stability_values[2])
@@ -185,7 +185,7 @@ community_indices_collection <- list(
 )
 
 # Each sheet stores the result set of one index.
-write.xlsx(community_indices_collection, "Community Indices.xlsx")
+write.xlsx(community_indices_collection, 'Community Indices.xlsx')
 
 ########## PART 2 NETWORK INDICES CALCULATION ##########
 ###### WARNING: WILL CLEAR ALL OBJECTS IN R ENVIRONMENT
@@ -199,7 +199,7 @@ library(tibble)
 library(purrr)
 
 # Read the species occurrence table for the nodes of each subnet.
-load("datasets/species occurrences.Rdata")
+load('datasets/species occurrences.Rdata')
 
 # Store them in a list for subsequent network processing.
 all_objects <- ls()
@@ -212,13 +212,13 @@ for (x in all_objects) {
 occurrences <- lapply(occurrences, as.data.frame)
 
 # Delete redundant tables in the list.
-occurrences <- occurrences[!names(occurrences) %in% c("sample2022", "sample2023", "sample2024")]
+occurrences <- occurrences[!names(occurrences) %in% c('sample2022', 'sample2023', 'sample2024')]
 
 # Remove redundant objects in R environment.
-rm(list = setdiff(ls(), "occurrences"))
+rm(list = setdiff(ls(), 'occurrences'))
 
 # Load total network which includes all species in 3 years.
-total_network <- read.xlsx("datasets/trophic interaction 0-1 adjacent matrix.xlsx")
+total_network <- read.xlsx('datasets/trophic interaction 0-1 adjacent matrix.xlsx')
 
 # Further Process.
 original_network <- total_network[,-(1:2)]
@@ -346,4 +346,4 @@ network_indices <- structure_indices(matrices, graphs)
 
 # Merge result tables into one table and output.
 collection_network_indices <- cbind(chain_indices, network_indices[, -1])
-write.xlsx(collection_network_indices, "Network Indices.xlsx")
+write.xlsx(collection_network_indices, 'Network Indices.xlsx')
