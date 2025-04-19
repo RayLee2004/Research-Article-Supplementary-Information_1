@@ -2,7 +2,7 @@
 ########## PART 1 COMMUNITY INDICES CALCULATION #########
 
 # Read in merged - dataset.
-load("datasets/merged_datasets.Rdata")
+load("datasets/merged datasets.Rdata")
 
 # Load required packages.
 library(vegan)
@@ -199,7 +199,7 @@ library(tibble)
 library(purrr)
 
 # Read the species occurrence table for the nodes of each subnet.
-load("datasets/species_occurrences.Rdata")
+load("datasets/species occurrences.Rdata")
 
 # Store them in a list for subsequent network processing.
 all_objects <- ls()
