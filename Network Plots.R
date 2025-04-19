@@ -1,6 +1,7 @@
 # Only one network is plot here as an example. 
 # Other networks can be drawn by modifying the imported 'edges and nodes' file.
 
+# Load required packages.
 library(igraph)
 library(ggraph)
 library(tidygraph)
