@@ -10,7 +10,7 @@ library(tidyr)
 ########## PART 1 PROCRUSTES ANALYZING #########
 
 # Read in merged dataset.
-load('datasets/merged_datasets.Rdata')
+load('datasets/merged datasets.Rdata')
 
 # Set fish as object to analyze.
 # Create a function to transpose tables to meet computational format.
