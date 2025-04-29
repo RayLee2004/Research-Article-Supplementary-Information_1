@@ -11,9 +11,9 @@ library(ggplot2)
 library(stringr)
 
 # Split the dataset.
-fish2022 <- cbind(fish$species, fish[, (2:19)])  # 2022
-fish2023 <- cbind(fish$species, fish[, (20:37)])  # 2023
-fish2024 <- cbind(fish$species, fish[, (38:55)])  # 2024
+fish2022 <- cbind(fish$species, fish[, (2:19)])  # 2022 dataset
+fish2023 <- cbind(fish$species, fish[, (20:37)])  # 2023 dataset
+fish2024 <- cbind(fish$species, fish[, (38:55)])  # 2024 dataset
 
 # Delete Sampling time number.
 colnames(fish2022) <- sub("\\_[1]", "", colnames(fish2022))
