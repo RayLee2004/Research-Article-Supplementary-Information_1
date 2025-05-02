@@ -170,7 +170,7 @@ ggplot(plotdf) +
     color = 'black'
   ) +
   
-### 8 Theme() module (to further polish)
+### 8 theme() module (to further polish)
   theme(
     ## Figure margin section
     plot.margin = margin(t = 10, r = 15, b = 10, l = 10, unit = 'pt'),
