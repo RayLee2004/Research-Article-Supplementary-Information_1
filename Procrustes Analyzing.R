@@ -117,10 +117,10 @@ plotdf_group <- data.frame(
 # The format and size of plot output can be modified here.
 png('Procrustes Analysis.png', width = 1500, height = 1200)
 
-### 1 ggplot() module (to import plotdf)
+### 1 ggplot() part (to import plotdf)
 ggplot(plotdf) +
   
-### 2 geom_segment() module (to specify the ploting object as a line segment)
+### 2 geom_segment() part (to specify the ploting object as a line segment)
   geom_segment(
     aes(
       x = X_begin,
@@ -132,7 +132,7 @@ ggplot(plotdf) +
     color = 'black' # Line color
   ) +
   
-### 3 lab() module (to define axis.labs and figure title)
+### 3 lab() part (to define axis.labs and figure title)
   labs(
     x = 'Dimension 1',
     y = 'Dimension 2',
@@ -146,13 +146,13 @@ ggplot(plotdf) +
     labels = plotdf_group$group
   ) +
   
-### 5 geom_point() module (to add the points at both ends of the line segment)
+### 5 geom_point() part (to add the points at both ends of the line segment)
   geom_point(aes(x = X_begin, y = Y_begin, color = 'Fish'), size = 5) + # points of group 1
   # Unify the color of the points to the color corresponding to the string "Fish".
   geom_point(aes(x = X_end, y = Y_end, color = 'Invertebrate'), size = 5) + # points of group 2
   # Unify the color of the points to the color corresponding to the string "Invertebrate".
   
-### 6 geom_text() module (to add point sample name)
+### 6 geom_text() part (to add point sample name)
   geom_text(
     aes(x = X_begin, y = Y_begin, label = sample), # show the point name of group 1
     color = 'black',
@@ -170,7 +170,7 @@ ggplot(plotdf) +
     color = 'black'
   ) +
   
-### 8 theme() module (to further polish)
+### 8 theme() part (to further polish)
   theme(
     ## Figure margin section
     plot.margin = margin(t = 10, r = 15, b = 10, l = 10, unit = 'pt'),
